@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+  <meta charset='UTF-8'/>
+
+  <title>Drawing Table</title>
+
+  <link rel='stylesheet' href='css/colorpicker.css'/>
+  <link rel='stylesheet' href='css/style.css'/>
+
+  <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>
+  <script src='js/colorpicker.js'></script>
+  <script src='js/drawingtable.js'></script>
+</head>
+
+<body>
+
+<div id="page-wrap">
+
+  <h1>Drawing Table</h1>
+  <p>Inspiration: a tool for creating pixel-art Emails (require no images) <a
+      href="http://stylecampaign.com/blog/?p=84">like this</a>.</p>
+
+  <div id="controls">
+
+    <fieldset id="grid-size-wrap">
+      <legend>Grid Size</legend>
+
+      <button id="clear">Clear the Design</button>
+
+      <select id="gridSize">
+        <option value="10,10" selected>10 x 10</option>
+        <option value="20,20">20 x 20</option>
+        <option value="30,30">30 x 30</option>
+      </select>
+      <br/>
+      Changing size clears the design
+    </fieldset>
+
+    <fieldset id="color-selector">
+      <legend>Color Picker</legend>
+      <div class="color red selected" data-color="red"><input type="text"></div>
+      <div class="color green" data-color="green"><input type="text"></div>
+      <div class="color blue" data-color="blue"><input type="text"></div>
+      <div class="color eraser" data-color="eraser"></div>
+      <p>Hold [Option] key for temporary erase mode</p>
+    </fieldset>
+
+    <fieldset id="tracing-wrap">
+      <legend>Place Tracing Image</legend>
+      <form id="tracing-image-form">
+        <label>URL to image:</label>
+        <input type="text" id="fileLocation" value="http://css-tricks.com/examples/DrawingTable/images/blinky.png">
+        <input type="submit" id="fileSubmit" value="Place Image">
+      </form>
+      <button id="toggle-tracing-mode">Toggle Tracing Mode Off</button>
+    </fieldset>
+
+    <fieldset id="run-neuro">
+      <legend>Get some result</legend>
+      <button id="neuro-go-button">Get number</button>
+      <div class="predict-number">-</div>
+    </fieldset>
+
+    <fieldset id="neuro-train">
+      <legend>Add train example</legend>
+      <button class="train-button" value="0">0</button>
+      <button class="train-button" value="1">1</button>
+      <button class="train-button" value="2">2</button>
+      <button class="train-button" value="3">3</button>
+      <button class="train-button" value="4">4</button>
+      <button class="train-button" value="5">5</button>
+      <button class="train-button" value="6">6</button>
+      <button class="train-button" value="7">7</button>
+      <button class="train-button" value="8">8</button>
+      <button class="train-button" value="9">9</button>
+    </fieldset>
+
+    <fieldset id="train">
+      <legend>Start train</legend>
+      <button id="start-train-button">Start train</button>
+    </fieldset>
+
+
+  </div>
+
+  <div id="table-wrap">
+    <table id="drawing-table">
+      <tr>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</body>
+
+</html>
