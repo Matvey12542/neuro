@@ -66,6 +66,58 @@ class WeightHelper {
     }
   }
 
+  public function loadBias($layerN, $neuroN) {
+    $data = '';
+    try {
+      $sql = "SELECT bias FROM $this->dataTableName WHERE layerN=:layerN AND neuroN=:neuroN";
+      $stmt = Database::getInstance()->getConnection()->prepare($sql);
+      $stmt->bindValue(':layerN', $layerN);
+      $stmt->bindValue(':neuroN', $neuroN);
+      $stmt->execute();
+      $data = $stmt->fetchColumn();
+
+    }
+    catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+
+    return $data;
+  }
+
+  public function saveBias($layerN, $neuroN, $bias) {
+    if ($this->loadWeight($layerN, $neuroN)) {
+      $this->updateBias($layerN, $neuroN, $bias);
+      return;
+    }
+
+    try {
+      $sql = "INSERT INTO $this->dataTableName (layerN, neuroN, bias) VALUES(:layerN,:neuroN, :bias)";
+      $stmt = Database::getInstance()->getConnection()->prepare($sql);
+      $stmt->bindValue(':layerN', $layerN);
+      $stmt->bindValue(':neuroN', $neuroN);
+      $stmt->bindValue(':bias', $bias);
+      $stmt->execute();
+    }
+    catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+  }
+
+  public function updateBias($layerN, $neuroN, $bias) {
+    try {
+      $sql = "UPDATE $this->dataTableName SET layerN=:layerN,neuroN=:neuroN, bias=:bias WHERE layerN=:layerN AND neuroN=:neuroN";
+      $stmt = Database::getInstance()->getConnection()->prepare($sql);
+      $stmt->bindValue(':layerN', $layerN);
+      $stmt->bindValue(':neuroN', $neuroN);
+      $stmt->bindValue(':bias', $bias);
+      $stmt->execute();
+
+    }
+    catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+  }
+
   public function addTraindata($data, $right_result) {
     try {
       $sql = "INSERT INTO $this->trainFileName (data, right_result) VALUES(:data,:right_result)";

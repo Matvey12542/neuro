@@ -176,6 +176,7 @@ $(function () {
       data: {'data': getTableData()},
       dataType: 'json',
       success: function(result) {
+        console.log(result);
         var markup = '';
         var max = Math.max.apply(null, result);
         for (x = 0; x < result.length; x++) {
@@ -184,6 +185,9 @@ $(function () {
         }
 
         $('.predict-number').html(markup);
+      },
+      error: function (err) {
+        console.log(err);
       }
     });
   });
@@ -205,6 +209,9 @@ $(function () {
       success: function(result) {
         // $('.predict-number').text(result);
         console.log('added');
+      },
+      error: function (err) {
+        console.log(err);
       }
     });
   });

@@ -22,7 +22,7 @@ class Main {
     $l = 0;
 
     for ($i = 0; $i < 10; $i++) {
-      $neuron = new Neuron(array_slice($this->data, $i * 10, 10), $l, $i);
+      $neuron = new Neuron($this->data, $l, $i);
       $l1_neurons_out[] = $neuron->getOutput();
       $this->layers[$l][] = $neuron;
     }
