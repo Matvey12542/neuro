@@ -76,9 +76,10 @@ class Neuron {
 
   public function activation() {
     $summ = $this->getSum();
-    $activation = $this->relu($summ);
+    $activation_sum = $this->relu($summ);
+    $bias_sum = max(0, ($activation_sum - $this->bias)); // Minus bias.
 
-    return $activation;
+    return $bias_sum;
   }
 
   public function getOutput() {
