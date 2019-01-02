@@ -58,6 +58,7 @@ class Train {
   public function getNeuronError($neuron, $right_result, $net_result, $lN) {
 
     if ($lN == 0) {
+      // Derivative from sigmoid.
       $error = ($right_result - $net_result) * $neuron->output * (1 - $neuron->output);
     }
     else {
@@ -67,6 +68,7 @@ class Train {
         $errors += $parent_neuron->error * $parent_neuron->weights[$i];
       }
 
+      // Derivative from sigmoid.
       $error = $errors * $neuron->output * (1 - $neuron->output);
     }
 
