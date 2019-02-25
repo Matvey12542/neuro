@@ -9,10 +9,10 @@ use PDO;
 
 class Database {
   private static $instance;
-  private $host = "mariadb";
+  private $host = "localhost";
   private $username = "root";
-  private $password = "password";
-  private $database = "drupal";
+  private $password = "1965";
+  private $database = "neuro";
   private $connection;
 
   public static function getInstance(){

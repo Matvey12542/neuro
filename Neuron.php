@@ -8,14 +8,14 @@ class Neuron {
   public $weightsDelta = 0;
   public $data = [];
   public $bias = 0;
-  private $jsonHelper;
+  private $dbHelper;
   public $output;
   public $error;
   public $layerN;
   public $neuronN;
 
   public function __construct(array $data, $layerN, $neuronN) {
-    $this->jsonHelper = new WeightHelper();
+    $this->dbHelper = new WeightHelper();
     $this->data = $data;
     $this->layerN = $layerN;
     $this->neuronN = $neuronN;
@@ -24,7 +24,7 @@ class Neuron {
   }
 
   public function initWeights($layerN, $neuroN) {
-    $this->weights = $this->jsonHelper->loadWeight($layerN, $neuroN);
+    $this->weights = $this->dbHelper->loadWeight($layerN, $neuroN);
     if (empty($this->weights)) {
       $this->weights = $this->getRandomWeights(count($this->data));
       $this->saveWeights();
@@ -34,7 +34,7 @@ class Neuron {
   }
 
   public function initBias($layerN, $neuroN) {
-    $this->bias = $this->jsonHelper->loadBias($layerN, $neuroN);
+    $this->bias = $this->dbHelper->loadBias($layerN, $neuroN);
     if (empty($this->bias)) {
       $this->bias = $this->getRandomBias();
       $this->saveBias();
@@ -58,11 +58,11 @@ class Neuron {
   }
 
   public function saveWeights() {
-    $this->jsonHelper->saveWeight($this->layerN, $this->neuronN, $this->weights);
+    $this->dbHelper->saveWeight($this->layerN, $this->neuronN, $this->weights);
   }
 
   public function saveBias() {
-    $this->jsonHelper->saveBias($this->layerN, $this->neuronN, $this->bias);
+    $this->dbHelper->saveBias($this->layerN, $this->neuronN, $this->bias);
   }
 
   public function getSum() {
@@ -89,6 +89,7 @@ class Neuron {
     return $this->output;
   }
 
+  // Not used.
   public function sigmoid($x) {
     $steepness = 0.00069315;
 //    return 1 / (1 + exp(-$x * $steepness));
