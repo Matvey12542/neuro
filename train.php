@@ -11,7 +11,7 @@ require_once 'WeightHelper.php';
 
 set_time_limit(0);
 $train = new Train();
-for ($i = 0; $i < 1; $i++) {
+for ($i = 0; $i < 20; $i++) {
   $train->train();
 }
 $train->saveAllWeights();

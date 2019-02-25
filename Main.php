@@ -41,7 +41,7 @@ class Main {
     $l3_neurons_out = [];
     $l = 2;
 
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 0; $i < 2; $i++) {
       $neuron = new Neuron($l2_neurons_out, $l, $i);
       $l3_neurons_out[] = $neuron->getOutput();
       $this->layers[$l][] = $neuron;

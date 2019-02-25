@@ -5,6 +5,7 @@ namespace Neuro;
 class Neuron {
 
   public $weights = [];
+  public $weightsDelta = 0;
   public $data = [];
   public $bias = 0;
   private $jsonHelper;
@@ -53,7 +54,7 @@ class Neuron {
   }
 
   public function getRandomBias() {
-    return rand(0, 100) / 100;
+    return rand(0, 20) / 100;
   }
 
   public function saveWeights() {
@@ -76,10 +77,11 @@ class Neuron {
 
   public function activation() {
     $summ = $this->getSum();
-    $activation_sum = $this->relu($summ);
-    $bias_sum = max(0, ($activation_sum - $this->bias)); // Minus bias.
+//    $activation_sum = $this->relu($summ);
+    $activation_sum = $this->sigmoid($summ);
+//    $bias_sum = max(0, ($activation_sum - $this->bias)); // Minus bias.
 
-    return $bias_sum;
+    return $activation_sum;
   }
 
   public function getOutput() {
@@ -94,7 +96,17 @@ class Neuron {
 //    return $x;
   }
 
+  public function sigmoidPrime($z) {
+    return $this->sigmoid($z) * (1 - $this->sigmoid($z));
+  }
+
+
   public function relu($x) {
     return max(0, $x);
   }
+
+  public function reluPrime($z) {
+    return $z > 0 ? 1 : 0;
+  }
+
 }

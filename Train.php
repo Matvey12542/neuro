@@ -5,8 +5,9 @@ namespace Neuro;
 class Train {
 
   private $jsonWeightsHelper;
-  const step = 0.003;
+  const step = 0.1;
   private $layers;
+  private $weightsDelta = NULL;
 
   public function __construct() {
 //    $this->jsonWeightsHelper = new JsonWeightsHelper();
@@ -36,41 +37,40 @@ class Train {
         for ($j = 0; $j < count($neurons); $j++) {
           $neuron = $neurons[$j];
           $neuron->error = $this->getNeuronError($neuron, $normalize_right_result[$j], $net_res[$j], $lN);
+          $neuron->weightsDelta = $neuron->error * $neuron->sigmoidPrime($neuron->getOutput());
 
           // Correct weight;
           for ($k = 0; $k < count($neuron->weights); $k++) {
-            $delta_weight = self::step * $neuron->error /** $neuron->data[$k]*/;
-            $neuron->weights[$k] += $delta_weight;
+            $neuron->weights[$k] = $neuron->weights[$k] - $neuron->getOutput() * $neuron->weightsDelta * self::step;
           }
         }
       }
     }
   }
 
+  public function getNeuronError($neuron, $right_result, $net_result, $lN) {
+    $error = 0;
+    if ($lN === 0) {
+      $error = $net_result - $right_result;
+    }
+    else {
+      $prev_layer = $this->layers[$lN - 1];
+      foreach ($prev_layer as $neuron) {
+        foreach ($neuron->weights as $weight) {
+          $error += $weight * $neuron->weightsDelta;
+        }
+      }
+    }
+
+    return $error;
+  }
+
   public function normalizeRightResult($right_res) {
-    $wrong_digit = 0.1;  // maybe 0.
+    $wrong_digit = 0;  // maybe 0.
     $right_digit = 1;
     $normalized = array_fill(0, 10, $wrong_digit);
     $normalized[$right_res] = $right_digit;
     return $normalized;
-  }
-
-  public function getNeuronError($neuron, $right_result, $net_result, $lN) {
-
-    if ($lN == 0) {
-      $error = ($right_result - $net_result) * $neuron->output * (1 - $neuron->output);
-    }
-    else {
-      $errors = 0;
-      for ($i = 0; $i < count($this->layers[$lN - 1]); $i++) {
-        $parent_neuron = $this->layers[$lN - 1][$i];
-        $errors += $parent_neuron->error * $parent_neuron->weights[$i];
-      }
-
-      $error = $errors * $neuron->output * (1 - $neuron->output);
-    }
-
-    return $error;
   }
 
   public function saveAllWeights() {
